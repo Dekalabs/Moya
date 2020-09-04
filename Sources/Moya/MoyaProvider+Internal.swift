@@ -188,8 +188,10 @@ private extension MoyaProvider {
         setup(interceptor: interceptor, with: target, and: request)
 
         let validationCodes = target.validationType.statusCodes
-        let validatedRequest = validationCodes.isEmpty ? request : request.validate(statusCode: validationCodes)
-        return sendAlamofireRequest(validatedRequest, target: target, callbackQueue: callbackQueue, progress: progress, completion: completion)
+        let validationContentTypes = target.validationContentType.contentTypes
+        var alamoRequest = validationCodes.isEmpty ? request : request.validate(statusCode: validationCodes)
+        alamoRequest = validationContentTypes.isEmpty ? alamoRequest : alamoRequest.validate(contentType: validationContentTypes)
+        return sendAlamofireRequest(alamoRequest, target: target, callbackQueue: callbackQueue, progress: progress, completion: completion)
     }
 
     func sendUploadFile(_ target: Target, request: URLRequest, callbackQueue: DispatchQueue?, file: URL, progress: ProgressBlock? = nil, completion: @escaping Completion) -> CancellableToken {
@@ -198,7 +200,9 @@ private extension MoyaProvider {
         setup(interceptor: interceptor, with: target, and: uploadRequest)
 
         let validationCodes = target.validationType.statusCodes
-        let alamoRequest = validationCodes.isEmpty ? uploadRequest : uploadRequest.validate(statusCode: validationCodes)
+        let validationContentTypes = target.validationContentType.contentTypes
+        var alamoRequest = validationCodes.isEmpty ? uploadRequest : uploadRequest.validate(statusCode: validationCodes)
+        alamoRequest = validationContentTypes.isEmpty ? alamoRequest : alamoRequest.validate(contentType: validationContentTypes)
         return sendAlamofireRequest(alamoRequest, target: target, callbackQueue: callbackQueue, progress: progress, completion: completion)
     }
 
@@ -208,7 +212,9 @@ private extension MoyaProvider {
         setup(interceptor: interceptor, with: target, and: downloadRequest)
 
         let validationCodes = target.validationType.statusCodes
-        let alamoRequest = validationCodes.isEmpty ? downloadRequest : downloadRequest.validate(statusCode: validationCodes)
+        let validationContentTypes = target.validationContentType.contentTypes
+        var alamoRequest = validationCodes.isEmpty ? downloadRequest : downloadRequest.validate(statusCode: validationCodes)
+        alamoRequest = validationContentTypes.isEmpty ? alamoRequest : alamoRequest.validate(contentType: validationContentTypes)
         return sendAlamofireRequest(alamoRequest, target: target, callbackQueue: callbackQueue, progress: progress, completion: completion)
     }
 
@@ -218,7 +224,9 @@ private extension MoyaProvider {
         setup(interceptor: interceptor, with: target, and: initialRequest)
 
         let validationCodes = target.validationType.statusCodes
-        let alamoRequest = validationCodes.isEmpty ? initialRequest : initialRequest.validate(statusCode: validationCodes)
+        let validationContentTypes = target.validationContentType.contentTypes
+        var alamoRequest = validationCodes.isEmpty ? initialRequest : initialRequest.validate(statusCode: validationCodes)
+        alamoRequest = validationContentTypes.isEmpty ? alamoRequest : alamoRequest.validate(contentType: validationContentTypes)
         return sendAlamofireRequest(alamoRequest, target: target, callbackQueue: callbackQueue, progress: progress, completion: completion)
     }
 

@@ -23,12 +23,20 @@ public protocol TargetType {
 
     /// The headers to be used in the request.
     var headers: [String: String]? { get }
+
+    /// The type of validation for the content type to perform on the request. Default is `.none`.
+    var validationContentType: ValidationContentType { get }
 }
 
 public extension TargetType {
 
     /// The type of validation to perform on the request. Default is `.none`.
     var validationType: ValidationType {
+        return .none
+    }
+
+    /// The type of validation to perform on the request. Default is `.none`.
+    var validationContentType: ValidationContentType {
         return .none
     }
 }
